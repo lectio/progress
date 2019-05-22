@@ -37,11 +37,7 @@ func (pr *BarReporter) StartReportableReaderActivityInBytes(ctx context.Context,
 	return pr.bar.NewProxyReader(inputReader)
 }
 
-func (pr *BarReporter) IncrementReportableActivityProgress(ctx context.Context) {
-	pr.bar.Increment()
-}
-
-func (pr *BarReporter) IncrementReportableActivityProgressBy(ctx context.Context, incrementBy int) {
+func (pr *BarReporter) IncrementReportableActivityProgress(ctx context.Context, incrementBy int) {
 	pr.bar.Add(incrementBy)
 }
 

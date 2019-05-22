@@ -4,9 +4,12 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"os"
 	"sync"
 )
 
+// SummaryReporter writes only the start/end of the reportable activity and errors / warnings are printed as
+// encountered.
 type SummaryReporter struct {
 	DefaultWriter  io.Writer
 	ErrorWriter    io.Writer
@@ -14,6 +17,14 @@ type SummaryReporter struct {
 	mu             sync.RWMutex
 	errorsReported uint
 	maxErrors      uint
+}
+
+func NewSummaryReporter(prefix string) *SummaryReporter {
+	result := new(SummaryReporter)
+	result.DefaultWriter = os.Stdout
+	result.ErrorWriter = os.Stderr
+	result.Prefix = prefix
+	return result
 }
 
 func (pr *SummaryReporter) StartReportableActivity(ctx context.Context, summary string, expectedItems int) {

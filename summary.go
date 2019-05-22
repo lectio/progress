@@ -7,7 +7,7 @@ import (
 	"sync"
 )
 
-type SummaryProgressReporter struct {
+type SummaryReporter struct {
 	writer         io.Writer
 	prefix         string
 	mu             sync.RWMutex
@@ -15,23 +15,23 @@ type SummaryProgressReporter struct {
 	maxErrors      uint
 }
 
-func (pr *SummaryProgressReporter) StartReportableActivity(ctx context.Context, summary string, expectedItems int) {
+func (pr *SummaryReporter) StartReportableActivity(ctx context.Context, summary string, expectedItems int) {
 	fmt.Fprintf(pr.writer, "%s%s\n", pr.prefix, summary)
 }
 
-func (pr *SummaryProgressReporter) StartReportableReaderActivityInBytes(ctx context.Context, summary string, exepectedBytes int64, inputReader io.Reader) io.Reader {
+func (pr *SummaryReporter) StartReportableReaderActivityInBytes(ctx context.Context, summary string, exepectedBytes int64, inputReader io.Reader) io.Reader {
 	fmt.Fprintf(pr.writer, "%s%s\n", pr.prefix, summary)
 	return inputReader
 }
 
-func (pr *SummaryProgressReporter) IncrementReportableActivityProgress(ctx context.Context, incrementBy int) {
+func (pr *SummaryReporter) IncrementReportableActivityProgress(ctx context.Context, incrementBy int) {
 }
 
-func (pr *SummaryProgressReporter) CompleteReportableActivityProgress(ctx context.Context, summary string) {
+func (pr *SummaryReporter) CompleteReportableActivityProgress(ctx context.Context, summary string) {
 	fmt.Fprintf(pr.writer, "%s%s\n", pr.prefix, summary)
 }
 
-func (pr *SummaryProgressReporter) CollectError(ctx context.Context, err error) bool {
+func (pr *SummaryReporter) CollectError(ctx context.Context, err error) bool {
 	pr.mu.Lock()
 	pr.errorsReported++
 	pr.mu.Unlock()
@@ -39,13 +39,13 @@ func (pr *SummaryProgressReporter) CollectError(ctx context.Context, err error) 
 	return !pr.MaxErrorsCollected(ctx)
 }
 
-func (pr *SummaryProgressReporter) MaxErrorsCollected(context.Context) bool {
+func (pr *SummaryReporter) MaxErrorsCollected(context.Context) bool {
 	pr.mu.RLock()
 	defer pr.mu.RUnlock()
 	return pr.maxErrors > 0 && pr.errorsReported > pr.maxErrors
 }
 
-func (pr *SummaryProgressReporter) CollectWarning(ctx context.Context, code, message string) bool {
+func (pr *SummaryReporter) CollectWarning(ctx context.Context, code, message string) bool {
 	fmt.Fprintf(pr.writer, "%s%s %s\n", pr.prefix, code, message)
 	return true
 }

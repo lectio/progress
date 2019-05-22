@@ -5,29 +5,29 @@ import (
 	"io"
 )
 
-type SilentProgressReporter struct{}
+type SilentReporter struct{}
 
-func (pr SilentProgressReporter) StartReportableActivity(ctx context.Context, summary string, expectedItems int) {
+func (pr SilentReporter) StartReportableActivity(ctx context.Context, summary string, expectedItems int) {
 }
 
-func (pr SilentProgressReporter) StartReportableReaderActivityInBytes(ctx context.Context, summary string, exepectedBytes int64, inputReader io.Reader) io.Reader {
+func (pr SilentReporter) StartReportableReaderActivityInBytes(ctx context.Context, summary string, exepectedBytes int64, inputReader io.Reader) io.Reader {
 	return inputReader
 }
 
-func (pr SilentProgressReporter) IncrementReportableActivityProgress(ctx context.Context, incrementBy int) {
+func (pr SilentReporter) IncrementReportableActivityProgress(ctx context.Context, incrementBy int) {
 }
 
-func (pr SilentProgressReporter) CompleteReportableActivityProgress(ctx context.Context, summary string) {
+func (pr SilentReporter) CompleteReportableActivityProgress(ctx context.Context, summary string) {
 }
 
-func (pr SilentProgressReporter) CollectError(context.Context, error) bool {
+func (pr SilentReporter) CollectError(context.Context, error) bool {
 	return true
 }
 
-func (pr SilentProgressReporter) MaxErrorsCollected(context.Context) bool {
+func (pr SilentReporter) MaxErrorsCollected(context.Context) bool {
 	return false
 }
 
-func (pr SilentProgressReporter) CollectWarning(ctx context.Context, code, message string) bool {
+func (pr SilentReporter) CollectWarning(ctx context.Context, code, message string) bool {
 	return true
 }

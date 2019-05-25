@@ -7,6 +7,10 @@ import (
 
 type SilentReporter struct{}
 
+func NewSilentReporter(prefix string) *SilentReporter {
+	return &SilentReporter{}
+}
+
 func (pr SilentReporter) StartReportableActivity(ctx context.Context, summary string, expectedItems int) {
 }
 

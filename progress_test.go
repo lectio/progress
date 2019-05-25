@@ -31,7 +31,7 @@ func (suite *ProgressSuite) TestSummaryTypes() {
 }
 
 func (suite *ProgressSuite) TestSilentTypes() {
-	br := NewSilentReporter("")
+	br := NewSilentReporter()
 	suite.Implements((*ReaderProgressReporter)(nil), br)
 	suite.Implements((*BoundedProgressReporter)(nil), br)
 	suite.Implements((*ExceptionCollector)(nil), br)

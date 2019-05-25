@@ -7,7 +7,7 @@ import (
 
 type SilentReporter struct{}
 
-func NewSilentReporter(prefix string) *SilentReporter {
+func NewSilentReporter() *SilentReporter {
 	return &SilentReporter{}
 }
 
